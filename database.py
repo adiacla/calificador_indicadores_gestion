@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from typing import Optional, List, Dict
 import os
+import re
 
 
 class DatabaseManager:
@@ -86,20 +87,31 @@ class DatabaseManager:
         calificacion = None
         recomendaciones = None
 
-        # Buscar la calificación
+        # Buscar la calificación (nuevo formato numérico)
         if "**Calificación:**" in respuesta_gemini:
             try:
                 calificacion_parte = respuesta_gemini.split("**Calificación:**")[
                     1
                 ].strip()
-                # Tomar solo la primera línea que debería contener la calificación
-                calificacion = calificacion_parte.split("\n")[0].strip()
-                # Limpiar caracteres extra
-                for palabra in ["Buena", "Regular", "Mala"]:
-                    if palabra.lower() in calificacion.lower():
-                        calificacion = palabra
-                        break
-            except:
+                # Buscar el número en la respuesta (formato: "🟧 2. Medio-bajo")
+                patron_numero = r"[🟢🟨🟧🟥⚪]\s*(\d+)\."
+                match = re.search(patron_numero, calificacion_parte)
+                if match:
+                    calificacion = match.group(1)  # Solo el número
+                else:
+                    # Fallback: buscar cualquier número al inicio de la línea
+                    patron_simple = r"(\d+)\."
+                    match_simple = re.search(patron_simple, calificacion_parte)
+                    if match_simple:
+                        calificacion = match_simple.group(1)
+                    else:
+                        # Último fallback: buscar cualquier dígito
+                        patron_digito = r"(\d+)"
+                        match_digito = re.search(patron_digito, calificacion_parte)
+                        if match_digito:
+                            calificacion = match_digito.group(1)
+            except Exception as e:
+                print(f"Error extrayendo calificación: {e}")
                 pass
 
         # Buscar las recomendaciones
@@ -114,7 +126,8 @@ class DatabaseManager:
                     ].strip()
                 else:
                     recomendaciones = recomendaciones_parte.strip()
-            except:
+            except Exception as e:
+                print(f"Error extrayendo recomendaciones: {e}")
                 pass
 
         return calificacion, recomendaciones
