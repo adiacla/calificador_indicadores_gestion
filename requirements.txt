@@ -1,5 +1,5 @@
 gradio
-google-generativeai
+google-genai
 python-dotenv
 sqlalchemy
 pandas
