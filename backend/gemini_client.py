@@ -2,20 +2,20 @@ import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from database import db_manager
+from backend.database import db_manager
+import pandas as pd
 
 load_dotenv()
 
 
-def get_gemini_response(objetivo, indicador, meta, fuente, formula, tipo):
+def get_indicator_evaluation(objetivo, indicador, meta, fuente, formula, tipo):
     """
-    Calls the Gemini API with the provided data, returns the response,
-    and saves the evaluation to the database.
+    Llama a la API de Gemini para evaluar un indicador de gestión y guarda el resultado.
     """
     # Create GenAI client
     client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-    model_name = "gemini-2.5-flash-preview-05-20"
+    model_name = "gemini-2.5-flash"
 
     contents = f"""
     Por favor, evalúa la siguiente información para un indicador de gestión:
@@ -110,3 +110,70 @@ def get_gemini_response(objetivo, indicador, meta, fuente, formula, tipo):
 
     except Exception as e:
         return f"An error occurred: {e}"
+
+
+def generate_code_from_prompt(user_prompt: str, df: pd.DataFrame) -> str:
+    """
+    Genera código Python basado en un prompt de usuario y un DataFrame.
+    """
+    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+    model_name = "gemini-2.5-flash"  # Bueno para generación de código
+
+    # Prepara la información del DataFrame para el prompt
+    df_head = df.head().to_string()
+    df_info = (
+        f"Columnas: {df.columns.tolist()}\nTipos de datos:\n{df.dtypes.to_string()}"
+    )
+
+    prompt = f"""
+    Eres un asistente experto en ciencia de datos en Python. Tu tarea es generar código Python para analizar y visualizar datos de un DataFrame de pandas.
+
+    **Instrucciones del usuario:**
+    "{user_prompt}"
+
+    **Información del DataFrame (disponible como `df`):**
+    Primeras 5 filas:
+    {df_head}
+
+    {df_info}
+
+    **Requisitos del código:**
+    1. Usa las librerías `pandas`, `matplotlib.pyplot` as `plt`, y `seaborn` as `sns`.
+    2. El DataFrame ya está cargado en una variable llamada `df`. NO incluyas código para cargar datos.
+    3. El código debe ser completo y ejecutable.
+    4. Genera al menos una visualización (gráfica).
+    5. **IMPORTANTE**: Si necesitas crear múltiples gráficos, usa `plt.figure()` para cada gráfico individual en lugar de `plt.subplot()` o `plt.subplots()`. Cada gráfico debe ser una figura separada.
+    6. Para cada gráfico usa esta estructura:
+       ```
+       plt.figure(figsize=(10, 6))
+       # ... código del gráfico ...
+       plt.title('Título del gráfico')
+       plt.tight_layout()
+       plt.show()
+       ```
+    7. **NUNCA** uses `plt.subplot()`, `plt.subplots()` o `fig, axes = plt.subplots()`. Cada visualización debe ser una figura independiente.
+    8. **SOLO** devuelve el código Python puro, sin explicaciones, ni texto adicional, ni markdown. El código debe empezar con `import`.
+
+    **Ahora, genera el código Python para la solicitud del usuario:**
+    """
+
+    try:
+        generate_content_config = types.GenerateContentConfig(
+            response_mime_type="text/plain",
+        )
+        response = client.models.generate_content(
+            model=model_name,
+            contents=prompt,
+            config=generate_content_config,
+        )
+
+        code = response.text
+        # Limpia la respuesta para obtener solo el código
+        if "```python" in code:
+            code = code.split("```python")[1].split("```")[0].strip()
+        elif "```" in code:
+            code = code.split("```")[1].strip()
+
+        return code
+    except Exception as e:
+        return f"Error al generar código: {e}"

@@ -1,0 +1,21 @@
+periodo,area,indicador,tipo,valor_obtenido,meta,calificacion
+2024-01,Ventas,Tasa de Conversión,Eficacia,15.2,18.0,3
+2024-01,Marketing,ROI Campañas,Eficiencia,2.1,2.5,4
+2024-01,Producción,Tiempo de Entrega,Eficiencia,3.2,3.0,2
+2024-01,Calidad,Satisfacción Cliente,Calidad,8.5,9.0,4
+2024-01,RRHH,Rotación Personal,Eficiencia,5.2,4.0,2
+2024-02,Ventas,Tasa de Conversión,Eficacia,16.8,18.0,4
+2024-02,Marketing,ROI Campañas,Eficiencia,2.7,2.5,5
+2024-02,Producción,Tiempo de Entrega,Eficiencia,2.8,3.0,4
+2024-02,Calidad,Satisfacción Cliente,Calidad,8.8,9.0,4
+2024-02,RRHH,Rotación Personal,Eficiencia,4.1,4.0,4
+2024-03,Ventas,Tasa de Conversión,Eficacia,18.5,18.0,5
+2024-03,Marketing,ROI Campañas,Eficiencia,3.1,2.5,5
+2024-03,Producción,Tiempo de Entrega,Eficiencia,2.5,3.0,5
+2024-03,Calidad,Satisfacción Cliente,Calidad,9.2,9.0,5
+2024-03,RRHH,Rotación Personal,Eficiencia,3.8,4.0,4
+2024-04,Ventas,Tasa de Conversión,Eficacia,17.3,18.0,4
+2024-04,Marketing,ROI Campañas,Eficiencia,2.9,2.5,5
+2024-04,Producción,Tiempo de Entrega,Eficiencia,2.7,3.0,4
+2024-04,Calidad,Satisfacción Cliente,Calidad,8.9,9.0,4
+2024-04,RRHH,Rotación Personal,Eficiencia,3.5,4.0,5 
