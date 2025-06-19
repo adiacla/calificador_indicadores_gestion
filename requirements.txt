@@ -6,3 +6,4 @@ sqlalchemy
 pandas
 plotly
 seaborn
+matplotlib  

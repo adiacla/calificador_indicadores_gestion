@@ -64,11 +64,6 @@ def procesar_csv_y_generar_codigo(archivo_csv, instrucciones_usuario):
 **Columnas:** {len(df.columns)}  
 **Columnas disponibles:** {', '.join(df.columns.tolist())}
 
-### Output del código:
-```
-{resultado["output"]}
-```
-
 **Variables creadas:** {len(resultado["variables"])}  
 **Gráficas generadas:** {len(resultado["figures"])}
 """
