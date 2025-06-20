@@ -147,14 +147,37 @@ def crear_tab_generador_ia():
                     interactive=True,
                 )
 
-        # Tercera fila: Código generado
+        # Tercera fila: Código para cargar archivo en Google Colab
+        with gr.Row():
+            with gr.Column(elem_classes="card"):
+                codigo_colab = """from google.colab import files
+import pandas as pd
+
+uploaded = files.upload()
+
+for fn in uploaded.keys():
+  print('User uploaded file "{name}" with length {length} bytes'.format(
+      name=fn, length=len(uploaded[fn])))
+  # Read the uploaded file into a pandas DataFrame
+  df = pd.read_csv(fn)
+
+# Display the first few rows of the DataFrame to confirm it loaded correctly
+display(df.head())"""
+                gr.Code(
+                    value=codigo_colab,
+                    label="📁 Código para cargar archivo en Google Colab",
+                    language="python",
+                    interactive=True,
+                )
+
+        # Cuarta fila: Código generado
         with gr.Row():
             with gr.Column(elem_classes="card"):
                 codigo_output = gr.Code(
                     label="🔧 Código Generado", language="python", interactive=False
                 )
 
-        # Cuarta fila: Información del dataset
+        # Quinta fila: Información del dataset
         with gr.Row():
             with gr.Column(elem_classes="card"):
                 dataset_info_output = gr.Markdown(
