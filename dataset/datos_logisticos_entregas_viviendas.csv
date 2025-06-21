@@ -1,4 +1,4 @@
-entrega_id,fecha_planificada,fecha_real,entrega_completa,entrega_a_tiempo,entrega_completa_a_tiempo,costo_transporte,venta,rotura_stock,pedidos_proveedores,pedidos_retrasados,volumen_stock_recibido,horas_recepcion,tiempo_produccion,tiempo_programado,produccion_real,produccion_teorica,productos_buenos
+entrega_id,fecha_planificada,fecha_real,entrega_completa,entrega_a_tiempo,entrega_completa_a_tiempo,costo_preparacion,venta,rotura_stock,pedidos_proveedores,pedidos_retrasados,volumen_stock_recibido,horas_recepcion,tiempo_produccion,tiempo_programado,produccion_real,produccion_teorica,productos_buenos
 1,2023-04-13,2023-04-14,True,False,False,2736.9304168724116,133684.50123265755,False,3,1,199,12,8.528699438480952,9,13.936810689540188,14,13.820049929799996
 2,2024-01-21,2024-01-21,True,True,True,2620.981135783017,100867.19755342203,False,3,0,287,7,8.344216491858376,9,15.425416114343992,18,15.12272691606215
 3,2023-01-21,2023-01-21,True,True,True,2547.562892158568,126646.54342749852,False,2,0,466,11,8.318488828650214,9,11.836776723741808,12,11.398093930693388
